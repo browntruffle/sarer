@@ -1,6 +1,6 @@
 // Configuration (optional): set API_KEY and CHANNEL_ID to fetch latest automatically.
 const CONFIG = {
-  API_KEY: '', // e.g. 'AIza...'
+  API_KEY: 'AIzaSyADX9vquIZU4Wb7BifYgrYkXgp_UNmP9oo',
   CHANNEL_ID: 'UCUcbceZxb_OnDpgSJAOsXEA', // provided by user
   CHANNEL_NAME: 'Alex Benjamin Kyeyune'
 };
