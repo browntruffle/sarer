@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/browntruffle/.vscode/**)",
+      "Bash(\"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code\" --install-extension anthropic.claude-code)",
+      "Read(//Users/browntruffle/.claude/local/**)",
+      "Bash(npm list *)"
+    ]
+  }
+}
