@@ -48,3 +48,4 @@ Notes
 - GitHub Pages serves static content; if you need server-side protection for your API key, consider deploying a small serverless function instead.
 
 Need help customizing styles, adding a contact form, or deploying? Ask and I can help.
+
