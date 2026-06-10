@@ -17,7 +17,8 @@ function populateYouTubeLinks(){
   document.querySelectorAll('.youtube-link').forEach(a=>{ a.href = url; a.target = '_blank'; a.rel = 'noopener'; });
 }
 
-document.getElementById('year')?.textContent = new Date().getFullYear();
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 async function loadSampleVideos(){
   try{
