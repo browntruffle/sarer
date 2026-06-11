@@ -86,3 +86,34 @@ async function loadLocalConfig(){
   if(!ok) await loadSampleVideos();
   populateYouTubeLinks();
 })();
+
+// Floating particles
+(function spawnParticles(){
+  const container = document.getElementById('particles');
+  if(!container) return;
+  const colors = ['rgba(255,77,77,0.6)','rgba(255,149,0,0.5)','rgba(255,77,77,0.3)','rgba(255,200,100,0.4)'];
+  for(let i = 0; i < 28; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:-10px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+      filter:blur(${Math.random()*1.5}px);
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// Scroll reveal
+(function scrollReveal(){
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.15});
+  els.forEach(el=>io.observe(el));
+})();
