@@ -2,7 +2,8 @@
 const CONFIG = {
   API_KEY: 'AIzaSyADX9vquIZU4Wb7BifYgrYkXgp_UNmP9oo',
   CHANNEL_ID: 'UCUcbceZxb_OnDpgSJAOsXEA', // provided by user
-  CHANNEL_NAME: 'Alex Benjamin Kyeyune'
+  CHANNEL_NAME: 'Alex Benjamin Kyeyune',
+  EXCLUDED_IDS: ['FJEjXvlvzec'] // videos to hide from the website
 };
 
 function buildYouTubeChannelUrl(name, channelId){
@@ -103,6 +104,7 @@ async function fetchFromYouTube(){
     const shorts = [];
     const longform = [];
     detailsData.items.forEach(v=>{
+      if(CONFIG.EXCLUDED_IDS.includes(v.id)) return;
       const secs = parseDuration(v.contentDetails && v.contentDetails.duration);
       const item = {id: v.id, title: v.snippet.title};
       const isUpcoming = v.snippet && v.snippet.liveBroadcastContent === 'upcoming';
