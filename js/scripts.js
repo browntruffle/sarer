@@ -28,6 +28,9 @@ async function loadSampleVideos(){
   }catch(e){
     document.getElementById('videos-list').textContent = 'Unable to load videos.';
   }
+  // Clear shorts section if API didn't populate it
+  const s = document.getElementById('shorts-list');
+  if(s && s.textContent.trim() === 'Loading…') s.textContent = 'No Shorts yet.';
 }
 
 function renderVideos(videos){
