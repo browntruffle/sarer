@@ -54,7 +54,7 @@ function escapeHtml(s){
 }
 
 function parseDuration(iso){
-  // Parse ISO 8601 duration e.g. PT1M30S → seconds
+  if(!iso) return 0;
   const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   if(!m) return 0;
   return (parseInt(m[1]||0)*3600)+(parseInt(m[2]||0)*60)+(parseInt(m[3]||0));
@@ -96,7 +96,7 @@ async function fetchFromYouTube(){
     const shorts = [];
     const longform = [];
     detailsData.items.forEach(v=>{
-      const secs = parseDuration(v.contentDetails.duration);
+      const secs = parseDuration(v.contentDetails && v.contentDetails.duration);
       const item = {id: v.id, title: v.snippet.title};
       if(secs <= 60) shorts.push(item);
       else longform.push(item);
