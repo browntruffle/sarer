@@ -50,17 +50,58 @@ function escapeHtml(s){
   return (s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[c]));
 }
 
+function parseDuration(iso){
+  // Parse ISO 8601 duration e.g. PT1M30S → seconds
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if(!m) return 0;
+  return (parseInt(m[1]||0)*3600)+(parseInt(m[2]||0)*60)+(parseInt(m[3]||0));
+}
+
+function renderShorts(videos){
+  const container = document.getElementById('shorts-list');
+  if(!container) return;
+  container.innerHTML = '';
+  if(!videos.length){ container.textContent = 'No Shorts yet.'; return; }
+  videos.forEach(v=>{
+    const card = document.createElement('div');
+    card.className = 'short-card';
+    card.innerHTML = `
+      <div class="short-embed">
+        <iframe src="https://www.youtube.com/embed/${v.id}" title="${escapeHtml(v.title)}" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-title">${escapeHtml(v.title)}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
 async function fetchFromYouTube(){
   if(!CONFIG.API_KEY || !CONFIG.CHANNEL_ID) return false;
   try{
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${CONFIG.API_KEY}&channelId=${CONFIG.CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if(data.items){
-      const videos = data.items.filter(i=>i.id.kind==='youtube#video').map(i=>({id:i.id.videoId,title:i.snippet.title}));
-      renderVideos(videos);
-      return true;
-    }
+    // Fetch recent videos
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${CONFIG.API_KEY}&channelId=${CONFIG.CHANNEL_ID}&part=snippet,id&order=date&maxResults=20&type=video`;
+    const searchRes = await fetch(searchUrl);
+    const searchData = await searchRes.json();
+    if(!searchData.items) return false;
+
+    const ids = searchData.items.map(i=>i.id.videoId).join(',');
+    const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?key=${CONFIG.API_KEY}&id=${ids}&part=contentDetails,snippet`;
+    const detailsRes = await fetch(detailsUrl);
+    const detailsData = await detailsRes.json();
+    if(!detailsData.items) return false;
+
+    const shorts = [];
+    const longform = [];
+    detailsData.items.forEach(v=>{
+      const secs = parseDuration(v.contentDetails.duration);
+      const item = {id: v.id, title: v.snippet.title};
+      if(secs <= 60) shorts.push(item);
+      else longform.push(item);
+    });
+
+    renderShorts(shorts.slice(0,6));
+    renderVideos(longform.slice(0,6));
+    return true;
   }catch(e){
     console.error('YouTube fetch failed',e);
   }

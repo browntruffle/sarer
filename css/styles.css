@@ -233,6 +233,39 @@ nav a:hover::after{width:100%}
 .video-card iframe{width:100%;height:160px;border:0;border-radius:10px}
 .video-title{font-size:13px;margin-top:10px;color:var(--text);font-weight:500;line-height:1.45}
 
+/* ── Shorts ── */
+.shorts-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:16px;
+  margin-top:28px;
+}
+.short-card{
+  background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.08);
+  padding:8px;
+  border-radius:16px;
+  transition:transform 0.24s,box-shadow 0.24s,border-color 0.24s;
+}
+.short-card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(255,77,77,0.25);
+  border-color:rgba(255,77,77,0.3);
+}
+.short-embed{
+  position:relative;
+  width:100%;
+  padding-top:177%; /* 9:16 aspect ratio */
+}
+.short-embed iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:10px;
+}
+
 /* ── Footer ── */
 .site-footer{
   border-top:1px solid rgba(255,255,255,0.06);
