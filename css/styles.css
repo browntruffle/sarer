@@ -283,6 +283,92 @@ nav a:hover::after{width:100%}
 }
 .social a:hover{color:var(--accent);transform:translateY(-2px)}
 
+/* ── Contact form ── */
+.contact-section{padding:80px 0 64px}
+.contact-section h1{
+  font-size:clamp(32px,5vw,52px);
+  font-weight:900;
+  background:linear-gradient(135deg,#ffffff 0%,#ff4d4d 50%,#ff9500 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:12px;
+}
+.contact-section .sub{
+  color:var(--muted);
+  font-size:17px;
+  margin-bottom:48px;
+}
+.contact-form{
+  max-width:560px;
+}
+.form-group{
+  margin-bottom:22px;
+}
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  margin-bottom:8px;
+}
+.form-group input,
+.form-group textarea{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  padding:14px 18px;
+  color:var(--text);
+  font-size:15px;
+  font-family:inherit;
+  outline:none;
+  transition:border-color 0.2s, box-shadow 0.2s;
+  resize:vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus{
+  border-color:rgba(255,77,77,0.5);
+  box-shadow:0 0 0 3px rgba(255,77,77,0.12);
+}
+.form-group textarea{min-height:140px}
+.form-submit{margin-top:8px}
+.form-success{
+  display:none;
+  background:rgba(34,197,94,0.1);
+  border:1px solid rgba(34,197,94,0.3);
+  border-radius:12px;
+  padding:18px 22px;
+  color:#4ade80;
+  font-size:15px;
+  margin-top:20px;
+}
+
+/* ── About page ── */
+.about{padding:60px 0}
+.about h1{
+  font-size:clamp(28px,4vw,44px);
+  font-weight:900;
+  background:linear-gradient(135deg,#ffffff 0%,#ff4d4d 50%,#ff9500 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:16px;
+}
+.about h2{
+  font-size:20px;
+  font-weight:700;
+  margin:32px 0 12px;
+  color:var(--accent);
+}
+.about p{color:var(--muted);font-size:16px;line-height:1.7;margin-bottom:12px}
+.about ul{padding-left:0;list-style:none}
+.about ul li{margin-bottom:8px}
+.about ul li a{color:var(--text);text-decoration:none;font-size:15px;transition:color 0.2s}
+.about ul li a:hover{color:var(--accent)}
+
 /* ── Responsive ── */
 @media(max-width:700px){
   .hero-inner{flex-direction:column;text-align:center}
