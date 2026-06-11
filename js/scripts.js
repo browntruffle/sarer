@@ -23,12 +23,19 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 async function loadSampleVideos(){
   try{
     const res = await fetch('data/videos.json');
-    const arr = await res.json();
-    renderVideos(arr);
+    const obj = await res.json();
+    // Support both old array format and new {videos,shorts} object
+    if(Array.isArray(obj)){
+      renderVideos(obj);
+    } else {
+      if(obj.videos) renderVideos(obj.videos);
+      if(obj.shorts) renderShorts(obj.shorts);
+    }
   }catch(e){
-    document.getElementById('videos-list').textContent = 'Unable to load videos.';
+    const el = document.getElementById('videos-list');
+    if(el) el.textContent = 'Unable to load videos.';
   }
-  // Clear shorts section if API didn't populate it
+  // Clear shorts section if still unset
   const s = document.getElementById('shorts-list');
   if(s && s.textContent.trim() === 'Loading…') s.textContent = 'No Shorts yet.';
 }
@@ -98,7 +105,9 @@ async function fetchFromYouTube(){
     detailsData.items.forEach(v=>{
       const secs = parseDuration(v.contentDetails && v.contentDetails.duration);
       const item = {id: v.id, title: v.snippet.title};
-      if(secs <= 60) shorts.push(item);
+      const isUpcoming = v.snippet && v.snippet.liveBroadcastContent === 'upcoming';
+      // YouTube Shorts can be up to 3 min (180s); exclude upcoming premieres from shorts
+      if(!isUpcoming && secs > 0 && secs <= 180) shorts.push(item);
       else longform.push(item);
     });
 
